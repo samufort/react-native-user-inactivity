@@ -5,6 +5,7 @@ import React, {
 } from 'react';
 import {
   // GestureResponderEvent,
+  Keyboard,
   PanResponder,
   StyleProp,
   View,
@@ -126,6 +127,16 @@ const UserInactivity: React.FC<UserInactivityProps> = ({
       }
     }
   }, [active]);
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidHide', resetTimerDueToActivity);
+    Keyboard.addListener('keyboardDidShow', resetTimerDueToActivity);
+
+    return () => {
+      Keyboard.removeAllListeners('keyboardDidHide');
+      Keyboard.removeAllListeners('keyboardDidShow');
+    };
+  }, []);
 
   /**
    * This method is called whenever a touch is detected. If no touch is
